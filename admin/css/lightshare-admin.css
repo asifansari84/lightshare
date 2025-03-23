@@ -58,14 +58,6 @@
 	padding: 20px;
 }
 
-.performance-score {
-	font-size: 48px;
-	font-weight: bold;
-	color: #46b450;
-	text-align: center;
-	margin: 20px 0;
-}
-
 .lightshare-card td label {
 	padding: 10px 0;
 	cursor: pointer;
@@ -76,69 +68,6 @@
 
 .lightshare-card td label:hover input[type="checkbox"] {
 	border-color: var(--primary-color);
-}
-
-.accordion-item {
-	margin-bottom: 10px;
-}
-
-.accordion-header {
-	cursor: pointer;
-	background-color: #fff;
-	color: #000;
-	padding: 15px 20px;
-	border: 1px solid #eee;
-	font-size: 14px;
-	font-weight: 600;
-	border: 1px solid #ccd0d4;
-}
-
-.accordion-header:before {
-	content: "\f347";
-	font-family: dashicons;
-	display: inline-block;
-	line-height: 1;
-	font-weight: 400;
-	width: 20px;
-	height: 20px;
-	font-size: 18px;
-	color: #444;
-	vertical-align: top;
-	margin-right: 10px;
-	position: relative;
-	top: 1px;
-}
-.accordion-header:hover,
-.accordion-header.active {
-	background-color: #f4f8ff;
-}
-
-.accordion-header.active {
-	border-bottom: none;
-}
-
-.accordion-header.active:before {
-	transform: rotate(180deg);
-	top: -2px;
-}
-
-.accordion-content {
-	display: none;
-	overflow: hidden;
-}
-
-.accordion-content .form-table td {
-	padding: 5px 0;
-	/* vertical-align: top; */
-}
-
-.accordion-content.active {
-	display: block;
-}
-
-.js-disable-scope,
-.css-disable-scope {
-	margin-bottom: 10px;
 }
 
 .checkbox-btn {
@@ -161,10 +90,6 @@
 	border-radius: 3px;
 }
 
-/* .checkbox-btn label span:hover {
-	background: #f6f7f7;
-} */
-
 .checkbox-btn label input {
 	position: absolute;
 	display: none;
@@ -172,50 +97,6 @@
 
 .checkbox-btn input:checked + span {
 	background-color: #edf7ff;
-}
-
-/* .js-exclude-pages-wrapper,
-.css-exclude-pages-wrapper {
-	margin-top: 10px;
-} */
-
-.js-exclude-enabled,
-.css-exclude-enabled {
-	margin-right: 5px;
-}
-
-#js-asset-management .js-exclude-pages-wrapper,
-#css-asset-management .css-exclude-pages-wrapper {
-	display: inline-block;
-	margin: 0 0 10px 10px;
-}
-
-#asset-manager .checkbox-btn {
-	display: inline;
-	margin-right: 10px;
-}
-
-#asset-manager .checkbox-btn label span {
-	font-size: 13px;
-	padding: 6px 8px;
-	background-color: #f6f7f7;
-}
-
-#asset-manager .checkbox-btn.status label span {
-	color: #bbb;
-	border-color: #bbb;
-}
-
-#asset-manager .checkbox-btn label span:hover {
-	background-color: #f0f0f1;
-	border-color: #0a4b78;
-	color: #0a4b78;
-}
-
-#asset-manager .checkbox-btn input:checked + span {
-	background-color: #04a17a;
-	border-color: #04a17a;
-	color: #fff;
 }
 
 .dashicons-editor-help {
@@ -365,19 +246,6 @@
 	padding: 15px;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 600px) {
-	.nav-tab-wrapper {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.nav-tab {
-		margin-bottom: 5px;
-		width: 100%;
-	}
-}
-
 .button-primary.lightshare-btn {
 	background-color: var(--primary-color);
 	border-color: var(--primary-color);
@@ -414,4 +282,106 @@
 
 .lightshare-admin-content #submit-button {
 	margin-top: 5px;
+}
+
+/* sortable social networks */
+.lightshare-social-networks {
+	margin: 0px 0px -10px 0px;
+	overflow: hidden;
+	max-width: 990px;
+}
+.lightshare-social-networks li {
+	overflow: hidden;
+	float: left;
+	margin-bottom: 0px;
+}
+.lightshare-social-networks li label {
+	position: relative;
+	width: 120px;
+	height: 18px;
+	font-size: 12px;
+	float: left;
+	padding-right: 8px;
+	background: #dddddd;
+	color: #aaaaaa;
+	margin: 0px 10px 10px 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.lightshare-social-networks li label.active {
+	color: #ffffff;
+}
+
+.lightshare-social-networks li label svg {
+	fill: #ffffff;
+	height: 15px;
+	width: 30px;
+}
+.lightshare-social-networks li label input[type="checkbox"] {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 0px;
+	z-index: -1;
+}
+li.lightshare-social-network-facebook label.active {
+	background: #3b5998;
+}
+li.lightshare-social-network-twitter label.active {
+	background: #000;
+}
+li.lightshare-social-network-linkedin label.active {
+	background: #0077b5;
+}
+li.lightshare-social-network-pinterest label.active {
+	background: #c92228;
+}
+li.lightshare-social-network-copy label.active {
+	background: #577482;
+}
+li.lightshare-social-network-bluesky label.active {
+	background: #1185fe;
+}
+li.lightshare-social-network-reddit label.active {
+	background: #ff4500;
+}
+li.lightshare-social-network-whatsapp label.active {
+	background: #25d366;
+}
+li.lightshare-social-network-telegram label.active {
+	background: #0088cc;
+}
+li.lightshare-social-network-threads label.active {
+	background: #000;
+}
+li.lightshare-social-network-email label.active {
+	background: #319324;
+}
+li.lightshare-social-network-print label.active {
+	background: #d34836;
+}
+li.lightshare-social-network-share label.active {
+	background: #2a2a2c;
+}
+
+.lightshare-title-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+	.nav-tab-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.nav-tab {
+		margin-bottom: 5px;
+		width: 100%;
+	}
 }

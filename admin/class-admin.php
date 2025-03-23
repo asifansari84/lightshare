@@ -145,7 +145,6 @@ class Admin {
 		$sanitization_rules = array(
 			// General
 			'disable_comments'                     => 'boolean',
-			'remove_comment_urls'                  => 'boolean',
 			'disable_rest_api'							=> 'text_field',
 			'limit_post_revisions'                 => 'limit_post_revisions',
 			// Settings
@@ -187,7 +186,6 @@ class Admin {
 		$default_options = [
 			// General
 			'disable_comments'                     => '0',
-			'remove_comment_urls'                  => '0',
 			'disable_rest_api'							=> '0',
 			'limit_post_revisions'                 => '0',
 			// Settings
