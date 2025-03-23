@@ -1,31 +1,64 @@
 <?php
 
-/**
- * Fired when the plugin is uninstalled.
- *
- * When populating this file, consider the following flow
- * of control:
- *
- * - This method should be static
- * - Check if the $_REQUEST content actually is the plugin name
- * - Run an admin referrer check to make sure it goes through authentication
- * - Verify the output of $_GET makes sense
- * - Repeat with other user roles. Best directly by using the links/query string parameters.
- * - Repeat things for multisite. Once for a single site in the network, once sitewide.
- *
- * This file may be updated more in future version of the Boilerplate; however, this is the
- * general skeleton and outline for how the file should work.
- *
- * For more information, see the following discussion:
- * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
- *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Lightshare
- */
-
 // If uninstall not called from WordPress, then exit.
-if (! defined('WP_UNINSTALL_PLUGIN')) {
+
+require __DIR__ . '/inc/class-lightshare-options.php';
+
+use Lightshare\LS_Options;
+
+if (!defined('WP_UNINSTALL_PLUGIN')) {
 	exit;
+}
+
+// Check if clean uninstall is enabled
+$clean_uninstall = LS_Options::get_option('clean_uninstall');
+
+if ($clean_uninstall == '1') {
+	// Delete all plugin options
+	$options_to_delete = [
+		'lightshare_options',
+		'lightshare_version',
+	];
+
+	foreach ($options_to_delete as $option) {
+		delete_option($option);
+	}
+
+	// Delete any custom tables if plugin creates any
+	// global $wpdb;
+	// $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}your_custom_table");
+
+	// Delete transients
+	delete_transient('lightshare_activation_notice');
+
+	// Delete any files or directories created by the plugin
+	$upload_dir = wp_upload_dir();
+	$combined_dir = trailingslashit($upload_dir['basedir']) . 'lightshare';
+
+	if (is_dir($combined_dir)) {
+		lightshare_remove_directory($combined_dir);
+	}
+}
+
+/**
+ * Recursively remove a directory and its contents
+ *
+ * @param string $dir Path to the directory
+ * @return bool True on success, false on failure
+ */
+function lightshare_remove_directory($dir) {
+	require_once(ABSPATH . 'wp-admin/inc/file.php');
+	WP_Filesystem();
+	global $wp_filesystem;
+
+	if (!$wp_filesystem->is_dir($dir)) {
+		return false;
+	}
+
+	// Delete directory contents recursively
+	if (!$wp_filesystem->delete($dir, true)) {
+		return false;
+	}
+
+	return true;
 }
