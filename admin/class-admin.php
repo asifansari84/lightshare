@@ -143,7 +143,7 @@ class Admin {
 		}
 		$sanitized_options = array();
 		$sanitization_rules = array(
-			// General
+			// Share Button
 			'disable_comments'                     => 'boolean',
 			'disable_rest_api'							=> 'text_field',
 			'limit_post_revisions'                 => 'limit_post_revisions',
@@ -184,7 +184,7 @@ class Admin {
 		}
 
 		$default_options = [
-			// General
+			// Share Button
 			'disable_comments'                     => '0',
 			'disable_rest_api'							=> '0',
 			'limit_post_revisions'                 => '0',
