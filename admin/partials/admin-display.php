@@ -14,16 +14,16 @@ if (!current_user_can('manage_options')) {
 
 // Define tabs
 $tabs = array(
-	'general' => 'General',
+	'share-button' => 'Share Button',
 	'settings' => 'Settings'
 );
 
 // Get current tab
-$active_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'general';
+$active_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'share-button';
 
 // Ensure the active tab is valid
 if (!array_key_exists($active_tab, $tabs)) {
-	$active_tab = 'general';
+	$active_tab = 'share-button';
 }
 ?>
 

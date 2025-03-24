@@ -128,7 +128,7 @@ class LightshareAdmin {
 
 	initializeTabs() {
 		const urlParams = new URLSearchParams(window.location.search);
-		this.setActiveTab(urlParams.get("tab") || "general");
+		this.setActiveTab(urlParams.get("tab") || "share-button");
 	}
 
 	setActiveTab(tab) {
