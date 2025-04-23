@@ -15,7 +15,9 @@ if (!current_user_can('manage_options')) {
 // Define tabs
 $tabs = array(
 	'share-button' => 'Share Button',
-	'settings' => 'Settings'
+	'floating-button' => 'Floating Button',
+	'inline-button' => 'Inline Button',
+	'tools' => 'Tools'
 );
 
 // Get current tab

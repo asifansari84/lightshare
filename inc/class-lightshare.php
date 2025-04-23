@@ -19,7 +19,7 @@ class Lightshare {
 	private function load_dependencies() {
 		require_once LIGHTSHARE_PATH . 'inc/class-loader.php';
 		require_once LIGHTSHARE_PATH . 'inc/class-lightshare-options.php';
-		require_once LIGHTSHARE_PATH . 'inc/class-core-tweaks.php';
+		//require_once LIGHTSHARE_PATH . 'inc/class-core-tweaks.php';
 		require_once LIGHTSHARE_PATH . 'admin/class-admin.php';
 		require_once LIGHTSHARE_PATH . 'public/class-public.php';
 
@@ -32,7 +32,7 @@ class Lightshare {
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
-		new \Lightshare\Core_Tweaks();
+		// new \Lightshare\Core_Tweaks();
 	}
 
 	private function define_admin_hooks() {

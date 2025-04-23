@@ -7,7 +7,7 @@ use Lightshare\LS_Options;
 ?>
 
 <div id="<?php echo esc_attr($tab_id); ?>" class="tab-pane">
-	<h2 class="content-title"><span class="dashicons dashicons-admin-tools"></span> Settings</h2>
+	<h2 class="content-title"><span class="dashicons dashicons-admin-tools"></span> Tools</h2>
 	<div class="lightshare-card">
 		<table class="form-table">
 			<tr valign="top">

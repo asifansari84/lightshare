@@ -170,7 +170,9 @@ class Admin {
 		$sanitization_rules = array(
 			// Share Button
 			'share' => 'share_settings',
-			// Settings
+			// Floating Button
+			'enable_floating_button' => 'boolean',
+			// Tools
 			'clean_uninstall' => 'boolean',
 			'clean_deactivate' => 'boolean',
 		);
@@ -209,8 +211,13 @@ class Admin {
 
 		$default_options = [
 			// Share Button
+			// 'share' => array(
+			// 	'social_networks' => array()
+			// ),
+			// Floating Button
+			'enable_floating_button' => '0',
 
-			// Settings
+			// Tools
 			'clean_uninstall' => '0',
 			'clean_deactivate' => '0',
 		];
