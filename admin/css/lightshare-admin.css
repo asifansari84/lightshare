@@ -29,6 +29,10 @@
 	font-weight: 500;
 }
 
+.lightshare-admin-content select {
+	min-width: 250px;
+}
+
 .nav-tab-wrapper {
 	margin-bottom: 20px;
 }
@@ -68,6 +72,10 @@
 
 .lightshare-card td label:hover input[type="checkbox"] {
 	border-color: var(--primary-color);
+}
+
+.lightshare-checkbox-group .lightshare-checkbox {
+	margin-left: 10px;
 }
 
 .checkbox-btn {
