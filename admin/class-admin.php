@@ -2,6 +2,8 @@
 
 namespace Lightshare;
 
+use Lightshare\Share_Button;
+
 class Admin {
 	private $plugin_name;
 	private $version;
@@ -63,19 +65,10 @@ class Admin {
 		// Handle social networks data
 		if (isset($_POST['lightshare_options']['share'])) {
 			$share_data = map_deep(wp_unslash($_POST['lightshare_options']['share']), 'sanitize_text_field');
+			$network_options = Share_Button::process_social_networks($share_data);
 
-			// Handle social networks order
-			if (isset($share_data['social_networks_order'])) {
-				$order = json_decode($share_data['social_networks_order'], true);
-				if (is_array($order) && !empty($order)) {
-					$active_networks = isset($share_data['social_networks']) ? (array)$share_data['social_networks'] : array();
-
-					// Only keep active networks in the order
-					$ordered_networks = array_values(array_intersect($order, $active_networks));
-					$new_options['share']['social_networks'] = $ordered_networks;
-				}
-			} elseif (isset($share_data['social_networks'])) {
-				$new_options['share']['social_networks'] = (array)$share_data['social_networks'];
+			if (!empty($network_options)) {
+				$new_options['share'] = $network_options;
 			}
 		}
 

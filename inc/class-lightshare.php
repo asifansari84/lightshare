@@ -19,7 +19,7 @@ class Lightshare {
 	private function load_dependencies() {
 		require_once LIGHTSHARE_PATH . 'inc/class-loader.php';
 		require_once LIGHTSHARE_PATH . 'inc/class-lightshare-options.php';
-		//require_once LIGHTSHARE_PATH . 'inc/class-core-tweaks.php';
+		require_once LIGHTSHARE_PATH . 'inc/class-share-button.php';
 		require_once LIGHTSHARE_PATH . 'admin/class-admin.php';
 		require_once LIGHTSHARE_PATH . 'public/class-public.php';
 
