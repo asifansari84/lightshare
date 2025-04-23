@@ -8,6 +8,7 @@ class LightshareAdmin {
 		this.initializeTabs();
 		this.setupEventHandlers();
 		this.setupResetSettings();
+		this.initializeSortable();
 	}
 
 	setupResetSettings() {
@@ -100,7 +101,7 @@ class LightshareAdmin {
 			},
 			error: () => {
 				this.hideLoadingIndicator();
-				this.showNotice("An error occurred. Please try again.", "error");
+				this.showNotice("An error occurred while saving. Please try again.", "error");
 			}
 		});
 	}
@@ -138,6 +139,22 @@ class LightshareAdmin {
 		$(".tab-content > div").hide();
 		$(`#${tab}`).show();
 		$("#lightshare_active_tab").val(tab);
+	}
+
+	initializeSortable() {
+		this.$('.lightshare-social-networks').sortable({
+			items: 'li',
+			opacity: 0.6,
+			cursor: 'move',
+			update: (event, ui) => {
+				// Update the hidden input with the new order
+				const networks = [];
+				this.$('.lightshare-social-networks li input').each((index, element) => {
+					networks.push(this.$(element).val());
+				});
+				this.$('#lightshare_social_networks_order').val(JSON.stringify(networks));
+			}
+		});
 	}
 }
 

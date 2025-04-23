@@ -32,7 +32,8 @@ class Admin {
 		if ('settings_page_lightshare' !== $hook) {
 			return;
 		}
-		wp_enqueue_script('lightshare-admin', plugin_dir_url(__FILE__) . 'js/lightshare-admin.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('jquery-ui-sortable');
+		wp_enqueue_script('lightshare-admin', plugin_dir_url(__FILE__) . 'js/lightshare-admin.js', array('jquery', 'jquery-ui-sortable'), $this->version, false);
 		wp_localize_script('lightshare-admin', 'lightshare_admin', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'nonce' => wp_create_nonce('lightshare_options_verify')
@@ -52,7 +53,32 @@ class Admin {
 			wp_send_json_error('Invalid nonce');
 		}
 
-		$new_options = isset($_POST['lightshare_options']) ? $this->sanitize_options(map_deep(wp_unslash($_POST['lightshare_options']), 'sanitize_text_field')) : array();
+		$new_options = array();
+
+		// Handle lightshare_options
+		if (isset($_POST['lightshare_options'])) {
+			$new_options = $this->sanitize_options(map_deep(wp_unslash($_POST['lightshare_options']), 'sanitize_text_field'));
+		}
+
+		// Handle social networks data
+		if (isset($_POST['lightshare']['share'])) {
+			$share_data = map_deep(wp_unslash($_POST['lightshare']['share']), 'sanitize_text_field');
+
+			// Handle social networks order
+			if (isset($share_data['social_networks_order'])) {
+				$order = json_decode($share_data['social_networks_order'], true);
+				if (is_array($order) && !empty($order)) {
+					$active_networks = isset($share_data['social_networks']) ? (array)$share_data['social_networks'] : array();
+
+					// Only keep active networks in the order
+					$ordered_networks = array_values(array_intersect($order, $active_networks));
+					$new_options['share']['social_networks'] = $ordered_networks;
+				}
+			} elseif (isset($share_data['social_networks'])) {
+				$new_options['share']['social_networks'] = (array)$share_data['social_networks'];
+			}
+		}
+
 		$old_options = get_option('lightshare_options', array());
 
 		// Check if the options are actually the same
@@ -141,39 +167,37 @@ class Admin {
 		if (!is_array($options)) {
 			return array();
 		}
-		$sanitized_options = array();
 		$sanitization_rules = array(
 			// Share Button
-			'disable_comments'                     => 'boolean',
-			'disable_rest_api'							=> 'text_field',
-			'limit_post_revisions'                 => 'limit_post_revisions',
+			'share' => 'share_settings',
 			// Settings
-			'clean_uninstall'                      => 'boolean',
-			'clean_deactivate'                     => 'boolean',
+			'clean_uninstall' => 'boolean',
+			'clean_deactivate' => 'boolean',
 		);
 
 		foreach ($sanitization_rules as $option => $rule) {
 			if (isset($options[$option])) {
 				switch ($rule) {
 					case 'boolean':
-						$sanitized_options[$option] = rest_sanitize_boolean($options[$option]);
+						$options[$option] = (bool) $options[$option];
 						break;
-
 					case 'text_field':
-						$sanitized_options[$option] = sanitize_text_field($options[$option]);
+						$options[$option] = sanitize_text_field($options[$option]);
 						break;
-
-					default:
-						$method = "sanitize_{$rule}";
-						if (method_exists($this, $method)) {
-							$sanitized_options[$option] = $this->$method($options[$option]);
+					case 'share_settings':
+						if (is_array($options[$option])) {
+							if (isset($options[$option]['social_networks']) && is_array($options[$option]['social_networks'])) {
+								$options[$option]['social_networks'] = array_map('sanitize_text_field', $options[$option]['social_networks']);
+							} else {
+								$options[$option]['social_networks'] = array();
+							}
 						}
 						break;
 				}
 			}
 		}
 
-		return $sanitized_options;
+		return $options;
 	}
 
 	public function reset_settings() {
@@ -185,42 +209,13 @@ class Admin {
 
 		$default_options = [
 			// Share Button
-			'disable_comments'                     => '0',
-			'disable_rest_api'							=> '0',
-			'limit_post_revisions'                 => '0',
+
 			// Settings
-			'clean_uninstall'                      => '0',
-			'clean_deactivate'                     => '0',
+			'clean_uninstall' => '0',
+			'clean_deactivate' => '0',
 		];
 		update_option('lightshare_options', $default_options);
 		wp_send_json_success('Settings reset successfully');
-	}
-
-	private function sanitize_limit_post_revisions($value) {
-
-		if (empty($value)) {
-			return '';
-		}
-
-		if ($value === false || $value === 'false') {
-			return 'false';
-		}
-
-		return intval($value);
-	}
-
-	public function save_settings_with_tab($value, $old_value, $option) {
-
-		if (
-			isset($_POST['lightshare_active_tab'], $_POST['lightshare_nonce']) &&
-			wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['lightshare_nonce'])), 'lightshare_settings')
-		) {
-			$tab = sanitize_key(ltrim(sanitize_text_field(wp_unslash($_POST['lightshare_active_tab'])), '#'));
-			add_filter('wp_redirect', function ($location) use ($tab) {
-				return add_query_arg('tab', $tab, $location);
-			});
-		}
-		return $value;
 	}
 
 	public function get_plugin_name() {
