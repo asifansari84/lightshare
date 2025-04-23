@@ -5,7 +5,10 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 use Lightshare\LS_Options;
 
 $options = LS_Options::get_options();
-$social_networks = isset($options['share']['social_networks']) ? $options['share']['social_networks'] : array('facebook', 'twitter', 'linkedin', 'pinterest', 'copy');
+$default_active_networks = array('facebook', 'twitter', 'linkedin', 'copy');
+
+// Use default networks only if no settings are saved
+$social_networks = isset($options['share']['social_networks']) ? $options['share']['social_networks'] : $default_active_networks;
 $social_networks = is_array($social_networks) ? $social_networks : array();
 
 // Define all available networks and their labels and icons
@@ -66,7 +69,7 @@ $ordered_networks += $available_networks;
                         <?php foreach ($ordered_networks as $network => $data) :
                             $is_active = in_array($network, $social_networks);
                         ?>
-                            <li class="lightshare-social-network-<?php echo esc_attr($network); ?>">
+                            <li class="lightshare-social-network-<?php echo esc_attr($network); ?> <?php echo $is_active ? 'active' : ''; ?>" data-network="<?php echo esc_attr($network); ?>">
                                 <label for="lightshare-share-social-network-input-<?php echo esc_attr($network); ?>" class="<?php echo $is_active ? 'active' : ''; ?>">
                                     <?php echo $data['icon']; ?>
                                     <?php echo esc_html($data['label']); ?>

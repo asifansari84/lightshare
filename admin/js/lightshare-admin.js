@@ -142,18 +142,43 @@ class LightshareAdmin {
 	}
 
 	initializeSortable() {
-		this.$('.lightshare-social-networks').sortable({
-			items: 'li',
+		const { $ } = this;
+		$('.lightshare-social-networks').sortable({
+			items: 'li.active',  // Only allow sorting of active items
 			opacity: 0.6,
 			cursor: 'move',
 			update: (event, ui) => {
-				// Update the hidden input with the new order
+				// Update the hidden input with the new order of active buttons only
 				const networks = [];
-				this.$('.lightshare-social-networks li input').each((index, element) => {
-					networks.push(this.$(element).val());
+				$('.lightshare-social-networks li.active input').each((index, element) => {
+					networks.push($(element).val());
 				});
-				this.$('#lightshare_social_networks_order').val(JSON.stringify(networks));
+				$('#lightshare_social_networks_order').val(JSON.stringify(networks));
 			}
+		});
+
+		// Handle checkbox changes
+		$('.lightshare-social-networks input[type="checkbox"]').on('change', function() {
+			const $li = $(this).closest('li');
+			const $label = $(this).closest('label');
+			
+			if (this.checked) {
+				$li.addClass('active');
+				$label.addClass('active');
+			} else {
+				$li.removeClass('active');
+				$label.removeClass('active');
+			}
+
+			// Refresh sortable to update which items can be sorted
+			$('.lightshare-social-networks').sortable('refresh');
+
+			// Update the order after checkbox change
+			const networks = [];
+			$('.lightshare-social-networks li.active input').each((index, element) => {
+				networks.push($(element).val());
+			});
+			$('#lightshare_social_networks_order').val(JSON.stringify(networks));
 		});
 	}
 }
