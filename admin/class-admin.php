@@ -204,15 +204,22 @@ class Admin {
 
 		$default_options = [
 			// Share Button
-			// 'share' => array(
-			// 	'social_networks' => array()
-			// ),
+			'share' => array(
+				'social_networks' => array(),
+				'social_networks_order' => array(),
+			),
 			// Floating Button
-			'enable_floating_button' => '0',
+			'floating' => array(
+				'enabled' => '0',
+				'button_alignment' => 'right',
+				'button_size' => 'medium',
+			),
 
 			// Tools
-			'clean_uninstall' => '0',
-			'clean_deactivate' => '0',
+			'tools' => array(
+				'clean_uninstall' => '0',
+				'clean_deactivate' => '0',
+			),
 		];
 		update_option('lightshare_options', $default_options);
 		wp_send_json_success('Settings reset successfully');

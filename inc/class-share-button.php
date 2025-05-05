@@ -34,30 +34,4 @@ class Share_Button {
 
 		return $network_options;
 	}
-
-	// /**
-	//  * Get available social networks
-	//  *
-	//  * @return array List of available social networks
-	//  */
-	// public static function get_available_networks() {
-	// 	return array(
-	// 		'facebook' 	=> 'Facebook',
-	// 		'twitter' 	=> 'Twitter',
-	// 		'linkedin' 	=> 'LinkedIn',
-	// 		'pinterest' => 'Pinterest',
-	// 		'whatsapp' 	=> 'WhatsApp',
-	// 		'email' 		=> 'Email'
-	// 	);
-	// }
-
-	// /**
-	//  * Get active social networks
-	//  *
-	//  * @return array List of active social networks
-	//  */
-	// public static function get_active_networks() {
-	// 	$options = LS_Options::get_options();
-	// 	return isset($options['share']['social_networks']) ? $options['share']['social_networks'] : array();
-	// }
 }
