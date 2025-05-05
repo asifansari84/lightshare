@@ -14,6 +14,15 @@ class Share_Button {
 	 */
 	public static function process_social_networks($share_data) {
 		$network_options = array();
+		$allowed_networks = array(
+			'facebook',
+			'twitter',
+			'linkedin',
+			'pinterest',
+			'bluesky',
+			'whatsapp',
+			'copy'
+		);
 
 		if (!is_array($share_data)) {
 			return $network_options;
@@ -25,11 +34,19 @@ class Share_Button {
 			if (is_array($order) && !empty($order)) {
 				$active_networks = isset($share_data['social_networks']) ? (array)$share_data['social_networks'] : array();
 
+				// Validate and sanitize networks
+				$active_networks = array_intersect($active_networks, $allowed_networks);
+				$order = array_intersect($order, $allowed_networks);
+
 				// Only keep active networks in the order
 				$network_options['social_networks'] = array_values(array_intersect($order, $active_networks));
+				$network_options['social_networks_order'] = $order;
 			}
 		} elseif (isset($share_data['social_networks'])) {
-			$network_options['social_networks'] = (array)$share_data['social_networks'];
+			// Validate and sanitize networks
+			$active_networks = array_intersect((array)$share_data['social_networks'], $allowed_networks);
+			$network_options['social_networks'] = array_values($active_networks);
+			$network_options['social_networks_order'] = $active_networks;
 		}
 
 		return $network_options;

@@ -160,69 +160,111 @@ class Admin {
 		if (!is_array($options)) {
 			return array();
 		}
+
+		$sanitized_options = array();
 		$sanitization_rules = array(
 			// Share Button
-			'share' => 'share_settings',
+			'share' => array(
+				'social_networks' => 'array',
+				'social_networks_order' => 'array'
+			),
 			// Floating Button
-			'enable_floating_button' => 'boolean',
+			'floating' => array(
+				'enabled' => 'boolean',
+				'button_alignment' => 'text_field',
+				'button_size' => 'text_field',
+				'post_types' => 'array'
+			),
+			// Inline Button
+			'inline' => array(
+				'enabled' => 'boolean'
+			),
 			// Tools
-			'clean_uninstall' => 'boolean',
-			'clean_deactivate' => 'boolean',
+			'tools' => array(
+				'clean_uninstall' => 'boolean',
+				'clean_deactivate' => 'boolean'
+			)
 		);
 
-		foreach ($sanitization_rules as $option => $rule) {
-			if (isset($options[$option])) {
+		foreach ($sanitization_rules as $section => $rules) {
+			if (!isset($options[$section])) {
+				continue;
+			}
+
+			$sanitized_options[$section] = array();
+
+			foreach ($rules as $key => $rule) {
+				if (!isset($options[$section][$key])) {
+					continue;
+				}
+
 				switch ($rule) {
 					case 'boolean':
-						$options[$option] = (bool) $options[$option];
+						$sanitized_options[$section][$key] = (bool) $options[$section][$key];
 						break;
 					case 'text_field':
-						$options[$option] = sanitize_text_field($options[$option]);
+						$sanitized_options[$section][$key] = sanitize_text_field($options[$section][$key]);
 						break;
-					case 'share_settings':
-						if (is_array($options[$option])) {
-							if (isset($options[$option]['social_networks']) && is_array($options[$option]['social_networks'])) {
-								$options[$option]['social_networks'] = array_map('sanitize_text_field', $options[$option]['social_networks']);
-							} else {
-								$options[$option]['social_networks'] = array();
-							}
+					case 'array':
+						if (is_array($options[$section][$key])) {
+							$sanitized_options[$section][$key] = array_map('sanitize_text_field', $options[$section][$key]);
+						} else {
+							$sanitized_options[$section][$key] = array();
 						}
 						break;
+					default:
+						$sanitized_options[$section][$key] = sanitize_text_field($options[$section][$key]);
 				}
 			}
 		}
 
-		return $options;
+		return $sanitized_options;
 	}
 
 	public function reset_settings() {
-		check_ajax_referer('lightshare_options_verify', 'nonce');
-
-		if (!current_user_can('manage_options')) {
-			wp_send_json_error('Insufficient permissions');
+		// Verify nonce and capabilities
+		if (!check_ajax_referer('lightshare_options_verify', 'nonce', false) || !current_user_can('manage_options')) {
+			wp_send_json_error(array(
+				'message' => __('Security check failed or insufficient permissions.', 'lightshare')
+			));
 		}
 
-		$default_options = [
-			// Share Button
+		// Define default options with proper structure
+		$default_options = array(
 			'share' => array(
-				'social_networks' => array(),
-				'social_networks_order' => array(),
+				'social_networks' => array('facebook', 'twitter', 'linkedin', 'copy'),
+				'social_networks_order' => array('facebook', 'twitter', 'linkedin', 'copy')
 			),
-			// Floating Button
 			'floating' => array(
 				'enabled' => '0',
 				'button_alignment' => 'right',
 				'button_size' => 'medium',
+				'post_types' => array('post', 'page')
 			),
-
-			// Tools
+			'inline' => array(
+				'enabled' => '0'
+			),
 			'tools' => array(
 				'clean_uninstall' => '0',
-				'clean_deactivate' => '0',
-			),
-		];
-		update_option('lightshare_options', $default_options);
-		wp_send_json_success('Settings reset successfully');
+				'clean_deactivate' => '0'
+			)
+		);
+
+		// Sanitize default options before saving
+		$sanitized_defaults = $this->sanitize_options($default_options);
+
+		// Update options
+		$update_result = update_option('lightshare_options', $sanitized_defaults);
+
+		if ($update_result) {
+			wp_send_json_success(array(
+				'message' => __('Settings have been reset to default values.', 'lightshare')
+			));
+		} else {
+			wp_send_json_error(array(
+				'message' => __('Failed to reset settings. Please try again.', 'lightshare')
+			));
+		}
 	}
 
 	public function get_plugin_name() {
