@@ -31,6 +31,8 @@ class Lightshare {
 
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+		$this->loader->add_filter('the_content', $plugin_public, 'add_share_buttons');
+		$this->loader->add_action('init', $plugin_public, 'register_shortcodes');
 
 		// new \Lightshare\Core_Tweaks();
 	}
