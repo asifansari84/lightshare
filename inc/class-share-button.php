@@ -24,6 +24,8 @@ class Share_Button {
 			'twitter',
 			'linkedin',
 			'pinterest',
+			'reddit',
+			'email',
 			'bluesky',
 			'whatsapp',
 			'copy'

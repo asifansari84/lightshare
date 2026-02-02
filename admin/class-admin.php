@@ -232,8 +232,8 @@ class Admin {
 		// Define default options with proper structure
 		$default_options = array(
 			'share' => array(
-				'social_networks' => array('facebook', 'twitter', 'linkedin', 'copy'),
-				'social_networks_order' => array('facebook', 'twitter', 'linkedin', 'copy')
+				'social_networks' => array('facebook', 'twitter', 'linkedin', 'pinterest', 'email', 'copy'),
+				'social_networks_order' => array('facebook', 'twitter', 'linkedin', 'pinterest', 'email', 'copy')
 			),
 			'floating' => array(
 				'enabled' => '0',
