@@ -32,7 +32,10 @@ class Lightshare {
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 		$this->loader->add_filter('the_content', $plugin_public, 'add_share_buttons');
+		$this->loader->add_action('wp_footer', $plugin_public, 'add_floating_buttons');
 		$this->loader->add_action('init', $plugin_public, 'register_shortcodes');
+		$this->loader->add_action('wp_ajax_lightshare_track_click', $plugin_public, 'track_click');
+		$this->loader->add_action('wp_ajax_nopriv_lightshare_track_click', $plugin_public, 'track_click');
 
 		// new \Lightshare\Core_Tweaks();
 	}

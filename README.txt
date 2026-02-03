@@ -34,8 +34,7 @@ Lightshare is built with performance as a top priority:
 
 * Minimal CSS/JS footprint (< 30KB combined)
 * SVG icons instead of icon fonts
-* Lazy-loaded share counts
-* Local caching of share counts
+* Internal click tracking for counts (no API calls)
 * No render-blocking resources
 * No third-party tracking scripts
 
@@ -47,7 +46,7 @@ You can manually place sharing buttons anywhere using the shortcode:
 
 With custom options:
 
-`[lightshare networks="facebook,twitter,linkedin" style="rounded" counts="false"]`
+`[lightshare networks="facebook,twitter,linkedin" style="rounded"]`
 
 == Developer Friendly ==
 
@@ -66,7 +65,7 @@ With custom options:
 
 = Which social networks are supported? =
 
-Lightshare supports Facebook, Twitter/X, LinkedIn, Pinterest, Reddit, and Email sharing by default.
+Lightshare supports Facebook, Twitter/X, LinkedIn, Pinterest, Reddit, WhatsApp, BlueSky, and Email sharing.
 
 = Will this plugin slow down my site? =
 
@@ -74,7 +73,7 @@ No, Lightshare is built with performance in mind. The total size of CSS and Java
 
 = How do I display share counts? =
 
-Share counts can be enabled in the plugin settings. For Facebook share counts, you'll need to provide a Facebook API access token.
+Share counts can be enabled in the plugin settings under the "Share Button" tab. Lightshare uses a lightweight internal click-tracking mechanism to ensure performance and privacy, so no external API keys are required.
 
 = Can I customize the button styles? =
 

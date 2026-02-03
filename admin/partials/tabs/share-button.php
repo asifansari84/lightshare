@@ -85,6 +85,20 @@ $ordered_networks += $available_networks;
                     <input type="hidden" id="lightshare_social_networks_order" name="lightshare_options[share][social_networks_order]" value="<?php echo esc_attr(json_encode(array_keys($ordered_networks))); ?>">
                 </td>
             </tr>
+            <tr valign="top">
+                <th scope="row">
+                    <div class="lightshare-title-wrapper">Show Share Counts
+                        <span class="dashicons dashicons-editor-help" data-title="Enable to display the total number of shares/clicks."></span>
+                    </div>
+                </th>
+                <td>
+                    <label class="lightshare-switch">
+                        <input type="checkbox" name="lightshare_options[share][show_counts]" value="1" <?php checked(isset($options['share']['show_counts']) && $options['share']['show_counts'] == '1'); ?>>
+                        <span class="lightshare-slider round"></span>
+                    </label>
+                    <p class="description">Enable internal click tracking to display share counts.</p>
+                </td>
+            </tr>
 
         </table>
     </div>
