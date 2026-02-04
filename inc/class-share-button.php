@@ -9,6 +9,25 @@ use Lightshare\LS_Options;
  */
 class Share_Button {
 	/**
+	 * Get allowed social networks.
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_networks() {
+		return array(
+			'facebook',
+			'twitter',
+			'linkedin',
+			'pinterest',
+			'reddit',
+			'email',
+			'bluesky',
+			'whatsapp',
+			'copy'
+		);
+	}
+
+	/**
 	 * Process and sanitize social networks data
 	 *
 	 * @param array $share_data Raw share data from form submission
@@ -21,17 +40,7 @@ class Share_Button {
 		}
 
 		$network_options = array();
-		$allowed_networks = array(
-			'facebook',
-			'twitter',
-			'linkedin',
-			'pinterest',
-			'reddit',
-			'email',
-			'bluesky',
-			'whatsapp',
-			'copy'
-		);
+		$allowed_networks = self::get_allowed_networks();
 
 		if (!is_array($share_data)) {
 			return $network_options;

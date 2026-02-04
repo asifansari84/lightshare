@@ -94,6 +94,21 @@ class Public_Core {
 		$network = isset($_POST['network']) ? sanitize_text_field($_POST['network']) : '';
 
 		if ($post_id > 0 && !empty($network)) {
+			$post = get_post($post_id);
+			if (!$post) {
+				wp_send_json_error();
+			}
+
+			$post_type = get_post_type_object($post->post_type);
+			if (!$post_type || empty($post_type->public) || $post->post_status !== 'publish') {
+				wp_send_json_error();
+			}
+
+			$allowed_networks = Share_Button::get_allowed_networks();
+			if (!in_array($network, $allowed_networks, true)) {
+				wp_send_json_error();
+			}
+
 			// Increment total shares
 			$total_shares = (int) get_post_meta($post_id, '_lightshare_total_shares', true);
 			$total_shares++;
