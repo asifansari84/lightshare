@@ -120,7 +120,7 @@ class Share_Button {
 
 		$count_html = '';
 		if ($show_counts && $total_shares > 0) {
-			$count_html = ' <span class="lightshare-total-count">(' . self::format_count($total_shares) . ')</span>';
+			$count_html = ' <span class="lightshare-total-count" aria-live="polite">(' . self::format_count($total_shares) . ')</span>';
 		}
 
 		// Optional label
@@ -179,15 +179,17 @@ class Share_Button {
 				$class_suffix = $network === 'copy' ? ' lightshare-copy' : '';
 				$data_attr = $network === 'copy' ? ' data-url="' . esc_attr($permalink) . '"' : '';
 				$target = ($network === 'copy' || $network === 'email') ? '' : ' target="_blank" rel="noopener noreferrer"';
+				$aria_label = ($network === 'copy') ? __('Copy link', 'lightshare') : sprintf(__('Share on %s', 'lightshare'), $label);
 				
 				$html .= sprintf(
-					'<a href="%s" class="lightshare-button lightshare-%s%s"%s%s title="Share on %s">',
+					'<a href="%s" class="lightshare-button lightshare-%s%s"%s%s title="Share on %s" aria-label="%s">',
 					esc_url($share_url),
 					esc_attr($network),
 					$class_suffix,
 					$target,
 					$data_attr,
-					esc_attr($label)
+					esc_attr($label),
+					esc_attr($aria_label)
 				);
 				$html .= '<span class="lightshare-icon">' . $icon . '</span>';
 				$html .= '<span class="lightshare-text">' . esc_html($label) . '</span>';

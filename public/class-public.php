@@ -14,7 +14,47 @@ class Public_Core {
 		$this->version = $version;
 	}
 
+	private function should_enqueue_assets() {
+		$post_id = get_queried_object_id();
+		$should_enqueue = false;
+
+		$inline_enabled = LS_Options::get_option('inline.enabled', false);
+		if ($inline_enabled) {
+			$post_types = LS_Options::get_option('inline.post_types', array('post'));
+			if (is_singular($post_types)) {
+				$should_enqueue = true;
+			}
+		}
+
+		$floating_enabled = LS_Options::get_option('floating.enabled', false);
+		if ($floating_enabled) {
+			$post_types = LS_Options::get_option('floating.post_types', array('post', 'page'));
+			if (is_singular($post_types)) {
+				$should_enqueue = true;
+			}
+		}
+
+		if (!$should_enqueue && $post_id) {
+			$post = get_post($post_id);
+			if ($post && has_shortcode($post->post_content, 'lightshare')) {
+				$should_enqueue = true;
+			}
+		}
+
+		/**
+		 * Filter whether Lightshare assets should be enqueued.
+		 *
+		 * @param bool $should_enqueue Whether to enqueue assets.
+		 * @param int  $post_id         Current post ID.
+		 */
+		return apply_filters('lightshare_should_enqueue_assets', $should_enqueue, $post_id);
+	}
+
 	public function enqueue_styles() {
+		if (!$this->should_enqueue_assets()) {
+			return;
+		}
+
 		wp_enqueue_style(
 			$this->plugin_name . '-public',
 			plugin_dir_url(__FILE__) . 'css/lightshare-public.css',
@@ -25,6 +65,10 @@ class Public_Core {
 	}
 
 	public function enqueue_scripts() {
+		if (!$this->should_enqueue_assets()) {
+			return;
+		}
+
 		wp_enqueue_script(
 			$this->plugin_name . '-public',
 			plugin_dir_url(__FILE__) . 'js/lightshare-public.js',
