@@ -105,10 +105,10 @@ class Share_Button {
 		$label_text = !empty($args['label_text'])
 			? $args['label_text']
 			: LS_Options::get_option('share.label_text', 'Share');
-		$label_text = apply_filters('lightshare_label_text', $label_text, $args, $post_id);
 		
 		// Check for custom post data passed in args (useful for loops or custom queries)
 		$post_id = !empty($args['post_id']) ? $args['post_id'] : get_the_ID();
+		$label_text = apply_filters('lightshare_label_text', $label_text, $args, $post_id);
 
 		/**
 		 * Filter whether rendered button output should be cached.
