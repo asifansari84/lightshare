@@ -53,6 +53,14 @@ class Admin {
 			$this->version,
 			true
 		);
+
+		// Load frontend styles in editor for accurate preview.
+		wp_enqueue_style(
+			'lightshare-block-preview',
+			LIGHTSHARE_PLUGIN_URL . 'public/css/lightshare-public.css',
+			array(),
+			$this->version
+		);
 	}
 
 	// Save the settings
