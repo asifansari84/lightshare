@@ -5,11 +5,11 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 use Lightshare\LS_Options;
 
 // Get all registered post types
-$post_types = get_post_types(array('public' => true), 'objects');
+$lightshare_post_types = get_post_types(array('public' => true), 'objects');
 
 ?>
 
-<div id="<?php echo esc_attr($tab_id); ?>" class="tab-pane">
+<div id="<?php echo esc_attr($lightshare_tab_id); ?>" class="tab-pane">
 	<h2 class="content-title"><span class="dashicons dashicons-align-left"></span> Inline Button</h2>
 	<div class="lightshare-card">
 		<table class="form-table">
@@ -53,15 +53,15 @@ $post_types = get_post_types(array('public' => true), 'objects');
 					</th>
 					<td>
 						<div class="lightshare-checkbox-group">
-							<?php foreach ($post_types as $post_type) :
-								$post_type_name = $post_type->name;
-								$is_checked = in_array($post_type_name, LS_Options::get_option('inline.post_types', array('post')));
+							<?php foreach ($lightshare_post_types as $post_type) :
+								$lightshare_post_type_name = $post_type->name;
+								$lightshare_is_checked = in_array($lightshare_post_type_name, LS_Options::get_option('inline.post_types', array('post')));
 							?>
 								<label class="lightshare-checkbox">
 									<input type="checkbox"
 										name="lightshare_options[inline][post_types][]"
-										value="<?php echo esc_attr($post_type_name); ?>"
-										<?php checked($is_checked); ?>>
+										value="<?php echo esc_attr($lightshare_post_type_name); ?>"
+										<?php checked($lightshare_is_checked); ?>>
 									<?php echo esc_html($post_type->labels->singular_name); ?>
 								</label>
 							<?php endforeach; ?>

@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+	exit;
+}
+
 namespace Lightshare;
 
 use Lightshare\Share_Button;
@@ -287,22 +292,15 @@ class Admin {
 			));
 		}
 
-		global $wpdb;
+		$deleted_total = delete_post_meta_by_key('_lightshare_total_shares');
 
-		$meta_table = $wpdb->postmeta;
-		$network_like = $wpdb->esc_like('_lightshare_shares_') . '%';
-
-		$deleted_total = $wpdb->delete($meta_table, array('meta_key' => '_lightshare_total_shares'));
-		$deleted_network = $wpdb->query(
-			$wpdb->prepare("DELETE FROM {$meta_table} WHERE meta_key LIKE %s", $network_like)
-		);
-
-		$total_deleted = 0;
-		if (is_numeric($deleted_total)) {
-			$total_deleted += (int) $deleted_total;
-		}
-		if (is_numeric($deleted_network)) {
-			$total_deleted += (int) $deleted_network;
+		$total_deleted = is_numeric($deleted_total) ? (int) $deleted_total : 0;
+		$allowed_networks = \Lightshare\Share_Button::get_allowed_networks();
+		foreach ($allowed_networks as $network) {
+			$deleted_network = delete_post_meta_by_key('_lightshare_shares_' . $network);
+			if (is_numeric($deleted_network)) {
+				$total_deleted += (int) $deleted_network;
+			}
 		}
 
 		wp_send_json_success(array(
@@ -321,7 +319,7 @@ class Admin {
 
 		$networks = isset($_POST['networks']) ? sanitize_text_field(wp_unslash($_POST['networks'])) : '';
 		$style = isset($_POST['style']) ? sanitize_text_field(wp_unslash($_POST['style'])) : '';
-		$show_label = isset($_POST['show_label']) ? (bool) wp_unslash($_POST['show_label']) : true;
+		$show_label = isset($_POST['show_label']) ? (bool) absint(wp_unslash($_POST['show_label'])) : true;
 		$label_text = isset($_POST['label_text']) ? sanitize_text_field(wp_unslash($_POST['label_text'])) : '';
 
 		$args = array(

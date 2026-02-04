@@ -4,15 +4,15 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use Lightshare\LS_Options;
 
-$options = LS_Options::get_options();
-$default_active_networks = array('facebook', 'twitter', 'linkedin', 'copy');
+$lightshare_options = LS_Options::get_options();
+$lightshare_default_active_networks = array('facebook', 'twitter', 'linkedin', 'copy');
 
 // Use default networks only if no settings are saved
-$social_networks = isset($options['share']['social_networks']) ? $options['share']['social_networks'] : $default_active_networks;
-$social_networks = is_array($social_networks) ? $social_networks : array();
+$lightshare_social_networks = isset($lightshare_options['share']['social_networks']) ? $lightshare_options['share']['social_networks'] : $lightshare_default_active_networks;
+$lightshare_social_networks = is_array($lightshare_social_networks) ? $lightshare_social_networks : array();
 
 // Define all available networks and their labels and icons
-$available_networks = array(
+$lightshare_available_networks = array(
     'facebook' => array(
         'label' => 'Facebook',
         'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="m279.14 288 14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg>'
@@ -44,17 +44,17 @@ $available_networks = array(
 );
 
 // Create ordered array of networks based on saved order
-$ordered_networks = array();
-foreach ($social_networks as $network) {
-    if (isset($available_networks[$network])) {
-        $ordered_networks[$network] = $available_networks[$network];
-        unset($available_networks[$network]);
+$lightshare_ordered_networks = array();
+foreach ($lightshare_social_networks as $lightshare_network) {
+    if (isset($lightshare_available_networks[$lightshare_network])) {
+        $lightshare_ordered_networks[$lightshare_network] = $lightshare_available_networks[$lightshare_network];
+        unset($lightshare_available_networks[$lightshare_network]);
     }
 }
 // Add remaining networks at the end
-$ordered_networks += $available_networks;
+$lightshare_ordered_networks += $lightshare_available_networks;
 ?>
-<div id="<?php echo esc_attr($tab_id); ?>" class="tab-pane">
+<div id="<?php echo esc_attr($lightshare_tab_id); ?>" class="tab-pane">
     <h2 class="content-title"> <span class="dashicons dashicons-share"></span> Share Button</h2>
     <div class="lightshare-card">
         <table class="form-table">
@@ -66,23 +66,23 @@ $ordered_networks += $available_networks;
                 </th>
                 <td>
                     <ul class="lightshare-social-networks">
-                        <?php foreach ($ordered_networks as $network => $data) :
-                            $is_active = in_array($network, $social_networks);
+                        <?php foreach ($lightshare_ordered_networks as $lightshare_network => $lightshare_data) :
+                            $lightshare_is_active = in_array($lightshare_network, $lightshare_social_networks);
                         ?>
-                            <li class="lightshare-social-network-<?php echo esc_attr($network); ?> <?php echo $is_active ? 'active' : ''; ?>" data-network="<?php echo esc_attr($network); ?>">
-                                <label for="lightshare-share-social-network-input-<?php echo esc_attr($network); ?>" class="<?php echo $is_active ? 'active' : ''; ?>">
-                                    <?php echo wp_kses_post($data['icon']); ?>
-                                    <?php echo esc_html($data['label']); ?>
+                            <li class="lightshare-social-network-<?php echo esc_attr($lightshare_network); ?> <?php echo $lightshare_is_active ? 'active' : ''; ?>" data-network="<?php echo esc_attr($lightshare_network); ?>">
+                                <label for="lightshare-share-social-network-input-<?php echo esc_attr($lightshare_network); ?>" class="<?php echo $lightshare_is_active ? 'active' : ''; ?>">
+                                    <?php echo wp_kses_post($lightshare_data['icon']); ?>
+                                    <?php echo esc_html($lightshare_data['label']); ?>
                                     <input type="checkbox"
-                                        id="lightshare-share-social-network-input-<?php echo esc_attr($network); ?>"
+                                        id="lightshare-share-social-network-input-<?php echo esc_attr($lightshare_network); ?>"
                                         name="lightshare_options[share][social_networks][]"
-                                        value="<?php echo esc_attr($network); ?>"
-                                        <?php checked($is_active); ?>>
+                                        value="<?php echo esc_attr($lightshare_network); ?>"
+                                        <?php checked($lightshare_is_active); ?>>
                                 </label>
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                    <input type="hidden" id="lightshare_social_networks_order" name="lightshare_options[share][social_networks_order]" value="<?php echo esc_attr(json_encode(array_keys($ordered_networks))); ?>">
+                    <input type="hidden" id="lightshare_social_networks_order" name="lightshare_options[share][social_networks_order]" value="<?php echo esc_attr(json_encode(array_keys($lightshare_ordered_networks))); ?>">
                 </td>
             </tr>
             <tr valign="top">

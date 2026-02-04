@@ -3,7 +3,7 @@ Contributors: nazim848
 Donate link: https://buymeacoffee.com/nazim848
 Tags: social share, social media, share buttons, facebook share, twitter share
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.2
 Stable tag: 1.0.0
 License: GPLv2 or later

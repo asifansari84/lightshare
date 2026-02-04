@@ -134,7 +134,7 @@ class Public_Core {
 		check_ajax_referer('lightshare_nonce', 'nonce');
 
 		$post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-		$network = isset($_POST['network']) ? sanitize_text_field($_POST['network']) : '';
+		$network = isset($_POST['network']) ? sanitize_text_field(wp_unslash($_POST['network'])) : '';
 
 		if ($post_id > 0 && !empty($network)) {
 			$post = get_post($post_id);
@@ -295,10 +295,10 @@ class Public_Core {
 			if (is_singular($post_types)) {
 				$alignment = LS_Options::get_option('floating.button_alignment', 'left');
 				$size = LS_Options::get_option('floating.button_size', 'medium');
-				echo Share_Button::render_buttons(array(
+				echo wp_kses_post(Share_Button::render_buttons(array(
 					'class' => 'lightshare-floating lightshare-floating-' . esc_attr($alignment) . ' lightshare-floating-size-' . esc_attr($size),
 					'show_label' => false
-				));
+				)));
 			}
 		}
 	}

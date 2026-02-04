@@ -22,11 +22,11 @@ $tabs = array(
 
 // Get current tab
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Tab switching is handled client-side via JavaScript
-$active_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'share-button';
+$lightshare_active_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'share-button';
 
 // Ensure the active tab is valid
-if (!array_key_exists($active_tab, $tabs)) {
-	$active_tab = 'share-button';
+if (!array_key_exists($lightshare_active_tab, $tabs)) {
+	$lightshare_active_tab = 'share-button';
 }
 ?>
 
@@ -36,9 +36,9 @@ if (!array_key_exists($active_tab, $tabs)) {
 	<div class="lightshare-admin-content">
 		<h2 class="nav-tab-wrapper">
 			<?php
-			foreach ($tabs as $tab_id => $tab_name) {
-				$class = ($tab_id === $active_tab) ? ' nav-tab-active' : '';
-				echo '<a href="#' . esc_attr($tab_id) . '" class="nav-tab' . esc_attr($class) . '">' . esc_html($tab_name) . '</a>';
+			foreach ($tabs as $lightshare_tab_id => $lightshare_tab_name) {
+				$lightshare_class = ($lightshare_tab_id === $lightshare_active_tab) ? ' nav-tab-active' : '';
+				echo '<a href="#' . esc_attr($lightshare_tab_id) . '" class="nav-tab' . esc_attr($lightshare_class) . '">' . esc_html($lightshare_tab_name) . '</a>';
 			}
 			?>
 		</h2>
@@ -47,15 +47,14 @@ if (!array_key_exists($active_tab, $tabs)) {
 			<?php settings_fields('lightshare_options'); ?>
 			<?php do_settings_sections('lightshare_options'); ?>
 			<?php wp_nonce_field('lightshare_options_verify', 'lightshare_nonce'); ?>
-			<input type="hidden" id="lightshare_active_tab" name="lightshare_active_tab" value="<?php echo esc_attr($active_tab); ?>">
+			<input type="hidden" id="lightshare_active_tab" name="lightshare_active_tab" value="<?php echo esc_attr($lightshare_active_tab); ?>">
 
 			<div class="tab-content">
 				<?php
-				foreach ($tabs as $tab_id => $tab_name) {
-					$style = ($tab_id === $active_tab) ? '' : 'style="display:none;"';
-					$tab_file = plugin_dir_path(__FILE__) . 'tabs/' . $tab_id . '.php';
-					if (file_exists($tab_file)) {
-						include $tab_file;
+				foreach ($tabs as $lightshare_tab_id => $lightshare_tab_name) {
+					$lightshare_tab_file = plugin_dir_path(__FILE__) . 'tabs/' . $lightshare_tab_id . '.php';
+					if (file_exists($lightshare_tab_file)) {
+						include $lightshare_tab_file;
 					} else {
 						echo '<p>Tab content not found.</p>';
 					}

@@ -15,17 +15,17 @@ require __DIR__ . '/inc/class-lightshare-options.php';
 use Lightshare\LS_Options;
 
 // Check if clean uninstall is enabled
-$clean_uninstall = LS_Options::get_option('tools.clean_uninstall');
+$lightshare_clean_uninstall = LS_Options::get_option('tools.clean_uninstall');
 
-if ($clean_uninstall == '1') {
+if ($lightshare_clean_uninstall == '1') {
 	// Delete all plugin options
-	$options_to_delete = [
+	$lightshare_options_to_delete = [
 		'lightshare_options',
 		'lightshare_version',
 	];
 
-	foreach ($options_to_delete as $option) {
-		delete_option($option);
+	foreach ($lightshare_options_to_delete as $lightshare_option) {
+		delete_option($lightshare_option);
 	}
 
 	// Delete transients

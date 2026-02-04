@@ -221,6 +221,7 @@ class Share_Button {
 				$class_suffix = $network === 'copy' ? ' lightshare-copy' : '';
 				$data_attr = $network === 'copy' ? ' data-url="' . esc_attr($permalink) . '"' : '';
 				$target = ($network === 'copy' || $network === 'email') ? '' : ' target="_blank" rel="noopener noreferrer"';
+				/* translators: %s: Social network label. */
 				$aria_label = ($network === 'copy') ? __('Copy link', 'lightshare') : sprintf(__('Share on %s', 'lightshare'), $label);
 				
 				$html .= sprintf(
