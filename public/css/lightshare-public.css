@@ -46,13 +46,6 @@
 	fill: currentColor;
 }
 
-/* Remove background squares from AI icons */
-.lightshare-chatgpt .lightshare-icon svg path:first-of-type,
-.lightshare-openai .lightshare-icon svg path:first-of-type,
-.lightshare-grok .lightshare-icon svg path:first-of-type {
-	fill: transparent !important;
-}
-
 /* Styles */
 
 /* Rounded */
@@ -92,11 +85,11 @@
 	.lightshare-text {
 		display: none;
 	}
-	
+
 	.lightshare-icon {
 		margin-right: 0;
 	}
-	
+
 	.lightshare-button {
 		padding: 10px;
 	}
@@ -111,7 +104,7 @@
 	background: #fff;
 	padding: 10px;
 	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	margin: 0; /* Reset default margin */
 }
 
@@ -193,12 +186,12 @@
 		background: #fff;
 		border-top: 1px solid #eee;
 	}
-	
+
 	.lightshare-floating .lightshare-buttons {
 		flex-direction: row;
 		justify-content: center;
 	}
-	
+
 	.lightshare-floating .lightshare-button {
 		flex: 0 0 auto;
 	}
