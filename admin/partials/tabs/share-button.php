@@ -83,7 +83,6 @@ $lightshare_ordered_networks += $lightshare_available_networks;
                         <option value="default" <?php selected(LS_Options::get_option('share.style', 'default'), 'default'); ?>>Default</option>
                         <option value="rounded" <?php selected(LS_Options::get_option('share.style', 'default'), 'rounded'); ?>>Rounded</option>
                         <option value="circle" <?php selected(LS_Options::get_option('share.style', 'default'), 'circle'); ?>>Circle</option>
-                        <option value="minimal" <?php selected(LS_Options::get_option('share.style', 'default'), 'minimal'); ?>>Minimal</option>
                     </select>
                 </td>
             </tr>

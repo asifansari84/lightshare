@@ -70,16 +70,6 @@
 	margin-right: 0;
 }
 
-/* Minimal (Ghost buttons) */
-.lightshare-style-minimal .lightshare-button {
-	background-color: transparent;
-	border: 1px solid currentColor;
-}
-
-.lightshare-style-minimal .lightshare-button:hover {
-	background-color: #f8f9fa;
-}
-
 /* Responsive */
 @media (max-width: 480px) {
 	.lightshare-text {

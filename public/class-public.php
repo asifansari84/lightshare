@@ -225,10 +225,6 @@ class Public_Core {
 					'type' => 'string',
 					'default' => ''
 				),
-				'style' => array(
-					'type' => 'string',
-					'default' => ''
-				),
 				'showLabel' => array(
 					'type' => 'boolean',
 					'default' => true
@@ -245,7 +241,6 @@ class Public_Core {
 	public function render_block($attributes) {
 		$args = array(
 			'networks' => isset($attributes['networks']) ? $attributes['networks'] : '',
-			'style' => isset($attributes['style']) ? $attributes['style'] : '',
 			'show_label' => isset($attributes['showLabel']) ? (bool) $attributes['showLabel'] : true,
 			'label_text' => isset($attributes['labelText']) ? $attributes['labelText'] : ''
 		);

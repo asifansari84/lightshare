@@ -23,10 +23,6 @@
 				type: 'string',
 				default: ''
 			},
-			style: {
-				type: 'string',
-				default: ''
-			},
 			showLabel: {
 				type: 'boolean',
 				default: true
@@ -52,19 +48,6 @@
 							value: attributes.networks,
 							onChange: function (value) {
 								setAttributes({ networks: value });
-							}
-						}),
-						el(SelectControl, {
-							label: __('Style', 'lightshare'),
-							value: attributes.style,
-							options: [
-								{ label: __('Default', 'lightshare'), value: '' },
-								{ label: __('Rounded', 'lightshare'), value: 'rounded' },
-								{ label: __('Circle', 'lightshare'), value: 'circle' },
-								{ label: __('Minimal', 'lightshare'), value: 'minimal' }
-							],
-							onChange: function (value) {
-								setAttributes({ style: value });
 							}
 						}),
 						el(ToggleControl, {

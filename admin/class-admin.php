@@ -70,6 +70,7 @@ class Admin {
 			array(),
 			$this->version
 		);
+		wp_add_inline_style('lightshare-block-preview', Share_Button::get_network_color_css());
 	}
 
 	// Save the settings

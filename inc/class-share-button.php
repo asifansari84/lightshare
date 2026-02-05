@@ -117,6 +117,12 @@ class Share_Button {
 		$rules = array();
 		$scope = $scope_selector ? rtrim($scope_selector) . ' ' : '';
 
+		if ($theme !== 'brand') {
+			$color = self::resolve_theme_color(array('color' => '#000000'), $theme);
+			if (!empty($color)) {
+				$rules[] = "{$scope}.lightshare-theme-{$theme} .lightshare-button { background-color: {$color}; }";
+			}
+		} else {
 		foreach ($definitions as $slug => $definition) {
 			$color = self::resolve_theme_color($definition, $theme);
 			if (empty($color)) {
@@ -124,8 +130,7 @@ class Share_Button {
 			}
 			$slug = sanitize_key($slug);
 			$rules[] = "{$scope}.lightshare-{$slug} { background-color: {$color}; }";
-			$minimal_color = ($theme === 'white') ? '#111111' : $color;
-			$rules[] = "{$scope}.lightshare-style-minimal .lightshare-{$slug} { color: {$minimal_color} !important; }";
+		}
 		}
 
 		if ($theme === 'white') {
@@ -147,6 +152,12 @@ class Share_Button {
 		$theme = self::get_color_theme($theme_override);
 		$rules = array();
 
+		if ($theme !== 'brand') {
+			$color = self::resolve_theme_color(array('color' => '#000000'), $theme);
+			if (!empty($color)) {
+				$rules[] = ".lightshare-social-networks li label.active { background: {$color}; }";
+			}
+		} else {
 		foreach ($definitions as $slug => $definition) {
 			$color = self::resolve_theme_color($definition, $theme);
 			if (empty($color)) {
@@ -155,9 +166,11 @@ class Share_Button {
 			$slug = sanitize_key($slug);
 			$rules[] = "li.lightshare-social-network-{$slug} label.active { background: {$color}; }";
 		}
+		}
 
 		if ($theme === 'white') {
 			$rules[] = ".lightshare-social-networks li label.active { color: #111111; }";
+			$rules[] = ".lightshare-social-networks li label.active { border: 1px solid #eaeaea; }";
 		}
 
 		return implode("\n", $rules);
